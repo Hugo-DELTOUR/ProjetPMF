@@ -9,32 +9,29 @@ import gnu.io.SerialPort;
  
 public class CAD 
 { 
+	static Model m;
 	private float actempExt = 0;
 	private float actempInt = 0;
 	private float achumidite = 0;
 	private boolean acporte = false;
 	
-    public CAD() 
+    public CAD(Model m) throws InterruptedException 
     { 
         super();
         //Première initialisation
-        /*
-        m.setTempExt(actempExt);
-        m.setTempInter(actempInt);
-        m.setHumidite(achumidite);
-        m.setPorte(acporte);
-        */
+        recuperationArduino();//Va envoyer en continu les données vers Model
         
     } 
-    
-    public void recuperationArduino() {
-    	while (1 == 1) {
-    		/*
+    /**Cette classe met à jour toutes les 5secondes les valeurs du modèle,
+     * par celles du CAD, càd celles récoltés par la classe Serial
+     * @throws InterruptedException
+     */
+    public void recuperationArduino() throws InterruptedException {
+    	while (true) {
     	 m.setTempExt(actempExt);
     	 m.setTempInter(actempInt);
-    	 m.setHumidite(achumidite);
     	 m.setPorte(acporte);
-    	 */
+    	 Thread.sleep(5000);
     	}
     }
      
@@ -102,19 +99,14 @@ public class CAD
 		this.acporte = aporte;
 	}
 
-	public static void main ( String[] args ) 
+	public static void main ( String[] args ) throws InterruptedException 
     { 
 		//Model m;
-		CAD cad = new CAD();
+		CAD cad = new CAD(m);
         try 
         { 
         	(cad).connect("COM5"); //On sélectionne le COM
         	
-        	//while (1 == 1) {
-            //System.out.println(cad.getAtempExt());
-            //System.out.println(cad.getAhumidite());
-            //System.out.println(cad.getAtempInt());
-        	//}
         } 
         catch ( Exception e ) 
         { 

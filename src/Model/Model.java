@@ -1,6 +1,8 @@
 package Model;
 
-public class Model {
+import java.util.Observable;
+
+public class Model extends Observable {
 	
 	private float tempExt;
 	private float tempInter;
@@ -12,14 +14,26 @@ public class Model {
 	
 	public Model() {
 		super();
+	}	
+
+	
+	/* Principe du Design Pattern OBSERVABLE/OBSERVER */
+	public void actualiserMesures() {
+		setChanged(); //L'état à changé = Notification ! C'est lui le bijoux pour indiquer qu'on autorise
+		notifyObservers(); //Va MAJ si setChanged == true
+	}
+
+	public void setMesures(float tempExt, float tempInter, float tempConsigne, float humidite, boolean pointRosee, boolean porte) {
 		this.tempExt = tempExt;
 		this.tempInter = tempInter;
 		this.tempConsigne = tempConsigne;
 		this.humidite = humidite;
 		this.pointRosee = pointRosee;
 		this.porte = porte;
+		actualiserMesures();
 	}
 
+	
 
 	public float getTempExt() {
 		return tempExt;
