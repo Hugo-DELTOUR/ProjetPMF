@@ -19,7 +19,6 @@ public class Acq_Data{
     public Acq_Data(Model m) throws Exception { 
         this.m = m;  
         this.connect("COM5");
-        
     }
 
 
@@ -53,10 +52,9 @@ public class Acq_Data{
         }
     }
         
-
+    //Ceci est notre thread ;) 
         public void RecolterDonnees (InputStream in) 
         { 
-        	
             byte[] buffer = new byte[1024]; 
             int len = -1; 
             try 
@@ -65,7 +63,6 @@ public class Acq_Data{
                 { 
                   //Le traitement doit se faire ici
                   String chaine = new String(buffer,0,len);
-                  System.out.print(chaine);
                   String[] elements = chaine.split(" "); //split avec espace
                   // contient ["H Ti Te"]
                   int i = 0;
@@ -74,15 +71,19 @@ public class Acq_Data{
                 	  
                 		switch (i) {
                 			case 0 :
-                				//this.ahumidite = Float.parseFloat(elements[0]);
-                				//System.out.println(this.ahumidite);
-                				//System.out.println(cad.getAhumidite());	
+                				this.aHumidite = Float.parseFloat(elements[0]);
+                				this.m.setHumidite(this.aHumidite); //Maj Valeur Modèle
                 			break;
                 			case 1 :
-                				//this.atempInt = Float.parseFloat(elements[1]);
+                				this.aTempInt = Float.parseFloat(elements[1]);
+                				this.m.setTempInter(this.aTempInt);
                 			break;
                 			case 2 :
-                				//this.atempExt = Float.parseFloat(elements[2]);
+                				this.aTempExt = Float.parseFloat(elements[2]);
+                				this.m.setTempExt(this.aTempExt);
+                			break;
+                			case 3 :
+                				//this.aCporte = Integer.parseInt(elements[2]);
                 			break;
                 		}
                 	  }
