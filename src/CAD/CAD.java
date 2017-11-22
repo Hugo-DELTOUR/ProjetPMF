@@ -1,24 +1,42 @@
 package CAD;
 import java.io.InputStream; 
-import java.io.OutputStream; 
- 
+import java.io.OutputStream;
+
+import Model.Model;
 import gnu.io.CommPort; 
 import gnu.io.CommPortIdentifier; 
 import gnu.io.SerialPort; 
  
 public class CAD 
 { 
-	
-	private float actempExt;
-	private float actempInt;
-	private float achumidite;
-	private boolean acporte;
+	private float actempExt = 0;
+	private float actempInt = 0;
+	private float achumidite = 0;
+	private boolean acporte = false;
 	
     public CAD() 
     { 
         super();
+        //Première initialisation
+        /*
+        m.setTempExt(actempExt);
+        m.setTempInter(actempInt);
+        m.setHumidite(achumidite);
+        m.setPorte(acporte);
+        */
         
     } 
+    
+    public void recuperationArduino() {
+    	while (1 == 1) {
+    		/*
+    	 m.setTempExt(actempExt);
+    	 m.setTempInter(actempInt);
+    	 m.setHumidite(achumidite);
+    	 m.setPorte(acporte);
+    	 */
+    	}
+    }
      
     void connect ( String portName ) throws Exception 
     { 
@@ -86,9 +104,17 @@ public class CAD
 
 	public static void main ( String[] args ) 
     { 
+		//Model m;
+		CAD cad = new CAD();
         try 
         { 
-            (new CAD()).connect("COM5"); //On sélectionne le COM
+        	(cad).connect("COM5"); //On sélectionne le COM
+        	
+        	//while (1 == 1) {
+            //System.out.println(cad.getAtempExt());
+            //System.out.println(cad.getAhumidite());
+            //System.out.println(cad.getAtempInt());
+        	//}
         } 
         catch ( Exception e ) 
         { 
