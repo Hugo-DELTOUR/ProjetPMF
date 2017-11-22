@@ -66,30 +66,19 @@ public class Acq_Data{
                   String[] elements = chaine.split(" "); //split avec espace
                   
                   // contient ["H Ti Te"]
-                  int i = 0;
+                  Thread.sleep(2000);
                   if (elements.length == 3) {
-                	  for (i = 0; i < elements.length; i++) {
-                		  if  (elements[i] != null) {
-                			  System.out.println(chaine);
-                			  	switch (i) {
-                			  		case 0 :
-                			  			this.aHumidite = Float.parseFloat(elements[0]);
-                			  		break;
-                			  		case 1 :
-                			  			this.aTempInt = Float.parseFloat(elements[1]);
-                			  		break;
-                			  		case 2 :
-                			  			this.aTempExt = Float.parseFloat(elements[2]);
-                			  		break;
-                			  		case 3 :
-                			  			//this.aCporte = Integer.parseInt(elements[2]);
-                			  		break;
-                			  	}
-                		  }
-                	  }
+                  System.out.println(chaine);
+                  this.aHumidite = Float.parseFloat(elements[0]);
+                  Thread.sleep(1000);
+                  this.aTempInt = Float.parseFloat(elements[1]);
+                  Thread.sleep(1000);
+                  this.aTempExt = Float.parseFloat(elements[2]);
+                  Thread.sleep(1000);
+                  //this.aCporte = Integer.parseInt(elements[2]);
                   System.out.println("Envois données vers le Modèle");
-                  this.m.setMesures(this.aHumidite,this.aTempInt,this.aTempExt);
-                  Thread.sleep(5000);
+                  Thread.sleep(3000);
+                  this.m.setMesures(this.aHumidite,this.aTempInt,this.aTempExt); 
                   }
                 } 
             } 
