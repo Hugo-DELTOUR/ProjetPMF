@@ -3,20 +3,20 @@ package CAD;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 /** */ 
 public class SerialReader implements Runnable  
 { 
     InputStream in;
+    CAD cad;
 	private float atempExt;
 	private float atempInt;
-	private float atempConsigne;
 	private float ahumidite;
-	private boolean apointRosee;
 	private boolean aporte;
-    private String[] decoupe;
 	
-    public SerialReader ( InputStream in ) 
+    public SerialReader (InputStream in, CAD cad) 
     { 
+    	this.cad = cad;
         this.in = in; 
     } 
      
@@ -40,15 +40,16 @@ public class SerialReader implements Runnable
             		switch (i) {
             			case 0 :
             				this.ahumidite = Float.parseFloat(elements[0]);
-            				System.out.println(this.ahumidite);
+            				this.cad.setAhumidite(this.ahumidite);
+            				
             			break;
             			case 1 :
             				this.atempInt = Float.parseFloat(elements[1]);
-            				System.out.println(this.atempInt);
+            				this.cad.setAtempInt(this.atempInt);
             			break;
             			case 2 :
             				this.atempExt = Float.parseFloat(elements[2]);
-            				System.out.println(this.atempExt);
+            				this.cad.setAtempExt(this.atempInt);
             			break;
             		}
             	  }
@@ -63,5 +64,24 @@ public class SerialReader implements Runnable
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}             
-    } 
+    }
+
+	public float getAtempExt() {
+		return atempExt;
+	}
+
+	public float getAtempInt() {
+		return atempInt;
+	}
+
+	public float getAhumidite() {
+		return ahumidite;
+	}
+
+	public boolean isAporte() {
+		return aporte;
+	}
+
+    
+    
 } 

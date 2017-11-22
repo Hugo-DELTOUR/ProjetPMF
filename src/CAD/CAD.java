@@ -1,5 +1,4 @@
 package CAD;
-import java.io.IOException; 
 import java.io.InputStream; 
 import java.io.OutputStream; 
  
@@ -10,16 +9,15 @@ import gnu.io.SerialPort;
 public class CAD 
 { 
 	
-	private float atempExt;
-	private float atempInt;
-	private float atempConsigne;
-	private float ahumidite;
-	private boolean apointRosee;
-	private boolean aporte;
+	private float actempExt;
+	private float actempInt;
+	private float achumidite;
+	private boolean acporte;
 	
     public CAD() 
     { 
         super();
+        
     } 
      
     void connect ( String portName ) throws Exception 
@@ -41,7 +39,7 @@ public class CAD
                 InputStream in = serialPort.getInputStream(); 
                 OutputStream out = serialPort.getOutputStream(); 
                  
-                (new Thread(new SerialReader(in))).start();  //Lecture
+                (new Thread(new SerialReader(in,this))).start();  //Lecture
                 (new Thread(new SerialWriter(out))).start(); 
  
             } 
@@ -49,11 +47,44 @@ public class CAD
             { 
                 System.out.println("Error: Only serial ports are handled by this example."); 
             } 
-        }      
+        }
+        
     } 
      
 
-    public static void main ( String[] args ) 
+    public float getAtempExt() {
+		return actempExt;
+	}
+
+	public void setAtempExt(float atempExt) {
+		this.actempExt = atempExt;
+	}
+
+	public float getAtempInt() {
+		return actempInt;
+	}
+
+	public void setAtempInt(float atempInt) {
+		this.actempInt = atempInt;
+	}
+
+	public float getAhumidite() {
+		return achumidite;
+	}
+
+	public void setAhumidite(float ahumidite) {
+		this.achumidite = ahumidite;
+	}
+
+	public boolean isAporte() {
+		return acporte;
+	}
+
+	public void setAporte(boolean aporte) {
+		this.acporte = aporte;
+	}
+
+	public static void main ( String[] args ) 
     { 
         try 
         { 
