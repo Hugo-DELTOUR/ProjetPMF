@@ -7,34 +7,41 @@ import Model.Model;
 
 public class Controler implements Observer {
 	
-	Model m;
 	Observable observable;
 	
-	public Controler(Observable observable, Model m){
-		observable.addObserver(this);		
+	private float TempExtActuelle;
+	private float derniereTempExt;
+	
+	private float TempIntActuelle;
+	private float derniereTempInt;
+	
+	private float HumiditeActuelle;
+	private float derniereHumidite;
+	
+	private boolean EtatPorteActuelle;
+	private boolean derniereEtatPorte;
+	
+	public Controler(Observable observable){
+		observable.addObserver(this);
 	}
 
-	private float derniereTempExt;
-	private float derniereTempInt;
-	private float derniereHumidite;
-	private boolean dernierPorte;
-	
 	public void update(Observable observable, Object arg) {
 		if (observable instanceof Model) {
-			Model model = (Model) observable;
-			this.derniereTempExt = model.getTempExt();
-			this.derniereTempInt = model.getTempInter();
-			this.derniereHumidite = model.getHumidite();
-			this.dernierPorte = model.isPorte();
-			System.out.println(this.derniereTempExt);
-			System.out.println(this.derniereTempInt);
-			System.out.println(this.derniereHumidite);
-			System.out.println(this.dernierPorte);
-			
-
+			Model model = (Model) observable;	
+			TempExtActuelle = model.getTempExt();
+			this.derniereTempExt = TempExtActuelle;			
+			TempIntActuelle = model.getTempInter();
+			this.derniereTempInt = TempIntActuelle;			
+			HumiditeActuelle = model.getHumidite();
+			this.derniereHumidite = HumiditeActuelle;
+			EtatPorteActuelle = model.isPorte();
+			this.derniereEtatPorte = EtatPorteActuelle;
+			afficher();
 			//Mettre les méthodes d'actualisation de la vue ici
 		}
-
-		//Mettre les méthodes de calculs ici
 	}
+	public void afficher() {
+		System.out.println("MAJ reçu");
+	}
+	
 }

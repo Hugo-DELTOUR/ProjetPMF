@@ -64,31 +64,33 @@ public class Acq_Data{
                   //Le traitement doit se faire ici
                   String chaine = new String(buffer,0,len);
                   String[] elements = chaine.split(" "); //split avec espace
+                  
                   // contient ["H Ti Te"]
                   int i = 0;
-                  if (elements.length > 1) {
-                  for (i = 0; i < elements.length; i++) {
-                	  
-                		switch (i) {
-                			case 0 :
-                				this.aHumidite = Float.parseFloat(elements[0]);
-                				this.m.setHumidite(this.aHumidite); //Maj Valeur Modèle
-                			break;
-                			case 1 :
-                				this.aTempInt = Float.parseFloat(elements[1]);
-                				this.m.setTempInter(this.aTempInt);
-                			break;
-                			case 2 :
-                				this.aTempExt = Float.parseFloat(elements[2]);
-                				this.m.setTempExt(this.aTempExt);
-                			break;
-                			case 3 :
-                				//this.aCporte = Integer.parseInt(elements[2]);
-                			break;
-                		}
+                  if (elements.length == 3) {
+                	  for (i = 0; i < elements.length; i++) {
+                		  if  (elements[i] != null) {
+                			  System.out.println(chaine);
+                			  	switch (i) {
+                			  		case 0 :
+                			  			this.aHumidite = Float.parseFloat(elements[0]);
+                			  		break;
+                			  		case 1 :
+                			  			this.aTempInt = Float.parseFloat(elements[1]);
+                			  		break;
+                			  		case 2 :
+                			  			this.aTempExt = Float.parseFloat(elements[2]);
+                			  		break;
+                			  		case 3 :
+                			  			//this.aCporte = Integer.parseInt(elements[2]);
+                			  		break;
+                			  	}
+                		  }
                 	  }
-                  }
+                  System.out.println("Envois données vers le Modèle");
+                  this.m.setMesures(this.aHumidite,this.aTempInt,this.aTempExt);
                   Thread.sleep(5000);
+                  }
                 } 
             } 
             catch ( IOException e ) 

@@ -4,16 +4,18 @@ import java.util.Observable;
 
 public class Model extends Observable {
 	
-	private float tempExt;
-	private float tempInter;
-	private float tempConsigne;
+	//Les valeurs sont mises à jour automatiquement
 	private float humidite;
-	private boolean pointRosee;
-	private boolean porte;
+	private float tempInter;
+	private float tempExt;
 	
+	private float tempConsigne = 0.0F;
+	private boolean pointRosee = false;
+	private boolean porte = false;
 	
+		
 	public Model() {
-		super();
+		//Pas besoin d'une structure de données
 	}	
 
 	
@@ -23,17 +25,12 @@ public class Model extends Observable {
 		notifyObservers(); //Va MAJ si setChanged == true
 	}
 
-	public void setMesures(float tempExt, float tempInter, float tempConsigne, float humidite, boolean pointRosee, boolean porte) {
-		this.tempExt = tempExt;
-		this.tempInter = tempInter;
-		this.tempConsigne = tempConsigne;
+	public void setMesures(float humidite, float tempInter, float tempExt) {
 		this.humidite = humidite;
-		this.pointRosee = pointRosee;
-		this.porte = porte;
+		this.tempInter = tempInter;
+		this.tempExt = tempExt;
 		actualiserMesures();
 	}
-
-	
 
 	public float getTempExt() {
 		return tempExt;
