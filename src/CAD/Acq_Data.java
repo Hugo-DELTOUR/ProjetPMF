@@ -9,7 +9,7 @@ import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
-public class Acq_Data{
+public class Acq_Data implements Runnable{
 	Model m;
 	private float aTempExt;
 	private float aTempInt;
@@ -18,7 +18,7 @@ public class Acq_Data{
 	
     public Acq_Data(Model m) throws Exception { 
         this.m = m;  
-        this.connect("COM5");
+        this.connect("COM5"); //Déclanchement de la lecture
     }
 
 
@@ -42,7 +42,8 @@ public class Acq_Data{
                 InputStream in = serialPort.getInputStream(); 
                 OutputStream out = serialPort.getOutputStream(); 
                  
-                RecolterDonnees(in);  //Lecture
+                RecolterDonnees(in);  //Lecture sur Arduino
+                EcrireDonnees(out);	//Ecriture sur Arduino
  
             } 
             else 
@@ -79,6 +80,7 @@ public class Acq_Data{
                   System.out.println("Envois données vers le Modèle");
                   Thread.sleep(3000);
                   this.m.setMesures(this.aHumidite,this.aTempInt,this.aTempExt); 
+
                   }
                 } 
             } 
@@ -90,5 +92,33 @@ public class Acq_Data{
     			e.printStackTrace();
     		}             
         }
+
+
+        //Dans ce code, toute les trente secondes, on va lancer un thread pour récupérer la valeur de la valeur souhaité dans "Modele" et l'injecter dans l'Arduino
+		public void EcrireDonnees(OutputStream out) throws InterruptedException {
+			
+			//if this.m.getTempConsigne() {...} Décider si on envoi ou pas
+		            try 
+		            {                 
+		                int vConsigne = 1; 
+		                while ( ( vConsigne = System.in.read()) > -1 ) 
+		                { 
+		                    out.write(vConsigne); 
+		                    //Thread.sleep(5000);
+		                }                 
+		            } 
+		            catch ( IOException e ) 
+		            { 
+		                e.printStackTrace(); 
+		            }             
+		        } 
+        
+
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		} 
 
 }

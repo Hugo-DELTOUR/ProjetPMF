@@ -9,8 +9,7 @@ public class Model extends Observable {
 	private float tempInter;
 	private float tempExt;
 	
-	private float tempConsigne = 0.0F;
-	private boolean pointRosee = false;
+	private float tempConsigne;
 	private boolean porte = false;
 	
 		
@@ -71,17 +70,6 @@ public class Model extends Observable {
 		this.humidite = humidite;
 	}
 
-
-	public boolean isPointRosee() {
-		return pointRosee;
-	}
-
-
-	public void setPointRosee(boolean pointRosee) {
-		this.pointRosee = pointRosee;
-	}
-
-
 	public boolean isPorte() {
 		return porte;
 	}
@@ -90,8 +78,5 @@ public class Model extends Observable {
 	public void setPorte(boolean porte) {
 		this.porte = porte;
 	}
-	
-	
-	
 
 }

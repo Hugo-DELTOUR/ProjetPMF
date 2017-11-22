@@ -20,6 +20,8 @@ public class Controler implements Observer {
 
 	private boolean EtatPorteActuelle;
 	private boolean derniereEtatPorte;
+	
+	private float températureConsigne;
 
 	public Controler(Observable observable) {
 		observable.addObserver(this);
@@ -48,4 +50,12 @@ public class Controler implements Observer {
 		System.out.println(this.derniereHumidite);
 	}
 
+	
+	//Si réception (clic OK)
+	//On récupére le champ de la vue
+	//On le met dans la température consigne
+	//Model.setTempératureConsigne(températureConsigne)
+	
+	
+	
 }
