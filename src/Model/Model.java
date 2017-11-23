@@ -8,7 +8,6 @@ public class Model extends Observable {
 	private float humidite;
 	private float tempInter;
 	private float tempExt;
-	
 	private float tempConsigne;
 	private boolean porte = false;
 	

@@ -10,6 +10,7 @@ import View.Vue;
 public class Controller implements Observer, ActionListener {
 	
 	Vue vue;
+	Model m;
 	Observable observable;
 
 	private float TempExtActuelle;
@@ -24,7 +25,7 @@ public class Controller implements Observer, ActionListener {
 	private boolean EtatPorteActuelle;
 	private boolean derniereEtatPorte;
 	
-	public Controller(Observable observable, Vue vue){
+	public Controller(Observable observable,Vue vue, Model m){
 			observable.addObserver(this);
 			this.vue = vue;
 			this.vue.getbGo().addActionListener(this);
@@ -50,8 +51,9 @@ public class Controller implements Observer, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("Ma classe interne numéro 3 écoute bien !");
-		int i = Integer.parseInt(this.vue.getChoixTemp().getText());
-		System.out.println("Envoi valeur : " + i);
+		int tempConsigne = Integer.parseInt(this.vue.getChoixTemp().getText());
+		System.out.println("Envoi valeur : " + tempConsigne);
+		this.m.setTempConsigne(tempConsigne);
 	}
 	
 	private void Afficher() {
