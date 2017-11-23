@@ -1,6 +1,6 @@
 package Main;
 
-import CAD.Acq_Data;
+import CAD.CAD;
 import Controler.Controller;
 import Model.Model;
 import View.Vue;
@@ -11,7 +11,7 @@ public class main {
 		Model model = new Model();
 		Vue vue = new Vue();
 		Controller control = new Controller(model,vue,model);
-		Acq_Data CAD = new Acq_Data(model);
+		CAD CAD = new CAD(model);
 		
 	}
 
