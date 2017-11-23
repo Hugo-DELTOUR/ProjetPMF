@@ -1,25 +1,35 @@
 package Model;
 
-public class Model {
+import java.util.Observable;
+
+public class Model extends Observable {
 	
-	private float tempExt;
-	private float tempInter;
-	private float tempConsigne;
+	//Les valeurs sont mises à jour automatiquement
 	private float humidite;
-	private boolean pointRosee;
-	private boolean porte;
+	private float tempInter;
+	private float tempExt;
 	
+	private float tempConsigne;
+	private boolean porte = false;
 	
+		
 	public Model() {
-		super();
-		this.tempExt = tempExt;
-		this.tempInter = tempInter;
-		this.tempConsigne = tempConsigne;
-		this.humidite = humidite;
-		this.pointRosee = pointRosee;
-		this.porte = porte;
+		//Pas besoin d'une structure de données
+	}	
+
+	
+	/* Principe du Design Pattern OBSERVABLE/OBSERVER */
+	public void actualiserMesures() {
+		setChanged(); //L'état à changé = Notification ! C'est lui le bijoux pour indiquer qu'on autorise
+		notifyObservers(); //Va MAJ si setChanged == true
 	}
 
+	public void setMesures(float humidite, float tempInter, float tempExt) {
+		this.humidite = humidite;
+		this.tempInter = tempInter;
+		this.tempExt = tempExt;
+		actualiserMesures();
+	}
 
 	public float getTempExt() {
 		return tempExt;
@@ -60,17 +70,6 @@ public class Model {
 		this.humidite = humidite;
 	}
 
-
-	public boolean isPointRosee() {
-		return pointRosee;
-	}
-
-
-	public void setPointRosee(boolean pointRosee) {
-		this.pointRosee = pointRosee;
-	}
-
-
 	public boolean isPorte() {
 		return porte;
 	}
@@ -79,8 +78,5 @@ public class Model {
 	public void setPorte(boolean porte) {
 		this.porte = porte;
 	}
-	
-	
-	
 
 }
