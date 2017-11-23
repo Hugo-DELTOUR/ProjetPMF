@@ -28,6 +28,7 @@ public class Controller implements Observer, ActionListener {
 	public Controller(Observable observable,Vue vue, Model m){
 			observable.addObserver(this);
 			this.vue = vue;
+			this.m = m;
 			this.vue.getbGo().addActionListener(this);
 		}
 
