@@ -9,7 +9,6 @@ public class Model extends Observable {
 	private float tempInter;
 	private float tempExt;
 	private float tempConsigne;
-	private boolean porte = false;
 	
 		
 	public Model() {
@@ -67,15 +66,6 @@ public class Model extends Observable {
 
 	public void setHumidite(float humidite) {
 		this.humidite = humidite;
-	}
-
-	public boolean isPorte() {
-		return porte;
-	}
-
-
-	public void setPorte(boolean porte) {
-		this.porte = porte;
 	}
 
 }

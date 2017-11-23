@@ -1,6 +1,8 @@
 package Controler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,42 +15,41 @@ public class Controller implements Observer, ActionListener {
 	Model m;
 	Observable observable;
 
-	private float TempExtActuelle;
 	private float derniereTempExt;
-
-	private float TempIntActuelle;
 	private float derniereTempInt;
-
-	private float HumiditeActuelle;
 	private float derniereHumidite;
-
-	private boolean EtatPorteActuelle;
-	private boolean derniereEtatPorte;
+	
+	private LinkedList tabTempInt; //Ce tableau va parcourir les 10 dernières valeurs pour porte + Graph
 	
 	public Controller(Observable observable,Vue vue, Model m){
 			observable.addObserver(this);
 			this.vue = vue;
 			this.m = m;
 			this.vue.getbGo().addActionListener(this);
+			this.tabTempInt = new LinkedList();
 		}
 
+	//Va mettre à jour les valeurs à chaque fois que le modèle subit une modification
 	public void update(Observable observable, Object arg) {
 		if (observable instanceof Model) {
 			Model model = (Model) observable;
-			TempExtActuelle = model.getTempExt();
-			this.derniereTempExt = (float) TempExtActuelle;
-			TempIntActuelle = model.getTempInter();
-			this.derniereTempInt = (float) TempIntActuelle;
-			HumiditeActuelle = model.getHumidite();
-			this.derniereHumidite = (float) HumiditeActuelle;
-//			EtatPorteActuelle = model.isPorte();
-//			this.derniereEtatPorte = EtatPorteActuelle;
-//			 Mettre les méthodes d'actualisation de la vue ici
-			Afficher();
+			this.derniereTempExt = model.getTempExt();
+			this.derniereTempInt = model.getTempInter();
+			this.derniereHumidite = model.getHumidite();
+			this.tabTempInt.add(this.derniereTempInt);
+			majTableau(); //Décale toutes les valeurs du tableau de 1
+			//Afficher();
 			MAJLabel();
 		}
 	}
 	
+	private void majTableau() {
+		if (this.tabTempInt.size() > 10) {
+			this.tabTempInt.removeFirst();
+			System.out.println("ElementRetiré");
+		}
+		}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("Ma classe interne numéro 3 écoute bien !");
@@ -58,9 +59,9 @@ public class Controller implements Observer, ActionListener {
 	}
 	
 	private void Afficher() {
-		System.out.println(this.derniereHumidite);
-		System.out.println(this.derniereTempExt);
-		System.out.println(this.derniereTempInt);
+		System.out.println("Humidité :" + this.derniereHumidite);
+		System.out.println("Température Intérieure :" + this.derniereTempInt);
+		System.out.println("Température Extérieure :" + this.derniereTempExt);
 	}
 	
 	public void MAJLabel(){
@@ -73,10 +74,6 @@ public class Controller implements Observer, ActionListener {
 		this.vue.setHumidité(this.derniereHumidite);
 		this.vue.setTempExt(this.derniereTempExt);
 		this.vue.setTempInt(this.derniereTempInt);
-	}
-	
-	public void MAJPorte(){
-		
 	}
 	
 	public void MAJGraph(){

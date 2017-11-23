@@ -8,22 +8,18 @@ import Model.Model;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
-import gnu.io.UnsupportedCommOperationException;
 
 public class CAD implements Runnable {
 	Model m;
 	private float aTempExt;
 	private float aTempInt;
 	private float aHumidite;
-	private boolean aCporte = false;
 	private CommPortIdentifier portIdentifier;
 	private CommPort commPort;
 
 	public CAD(Model m) throws Exception {
 		this.m = m;
 		this.connect(); // Déclanchement de la lecture
-		this.portIdentifier = portIdentifier;
-		this.commPort = commPort;
 	}
 
 	// Se connecter au port série
@@ -44,7 +40,6 @@ public class CAD implements Runnable {
 			SerialPort serialPort = (SerialPort) commPort;
 			serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
 			InputStream in = serialPort.getInputStream();
-			OutputStream out = serialPort.getOutputStream();
 			RecolterDonnees(in); //On récolte les données la première fois
 		}	
 	}
@@ -78,7 +73,6 @@ public class CAD implements Runnable {
 				// contient ["H Ti Te"]
 				Thread.sleep(2000);
 				if (elements.length == 3) {
-					System.out.println(chaine);
 					this.aHumidite = Float.parseFloat(elements[0]);
 					Thread.sleep(1000);
 					this.aTempInt = Float.parseFloat(elements[1]);
@@ -86,7 +80,7 @@ public class CAD implements Runnable {
 					this.aTempExt = Float.parseFloat(elements[2]);
 					Thread.sleep(1000);
 					// this.aCporte = Integer.parseInt(elements[2]);
-					System.out.println("Envois données vers le Modèle");
+					System.out.println("\n Envois données vers le Modèle");
 					this.m.setMesures(this.aHumidite, this.aTempInt, this.aTempExt);
 					choixAction(true); // Declanche une écriture
 				}
@@ -104,8 +98,7 @@ public class CAD implements Runnable {
 		if (this.m.getTempConsigne() != 0) {
 			int vConsigne = (int) this.m.getTempConsigne();
 			try {
-				System.out.println("J'écris dans la carte : " + this.m.getTempConsigne());
-				
+				System.out.println("T° Consigne vers carte: " + this.m.getTempConsigne());
 				out.write(vConsigne);	
 				choixAction(false); // Declanche une écriture
 				

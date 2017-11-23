@@ -35,8 +35,6 @@ public class Vue extends JFrame implements IVue{
 	private JLabel température = new JLabel("Choix de la température:");
 	private JTextField choixTemp = new JTextField("", 20);
 	private JButton bGo = new JButton("Go");
-	private Graphics graph;
-	private Observable observable;
 	private Boolean pointRosée = true;
 	private Boolean porte = true ;
 	
