@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Vue extends JFrame implements IVue, ActionListener{
+public class Vue extends JFrame implements IVue{
 
 
 	private float tempInt;
@@ -174,10 +175,13 @@ public class Vue extends JFrame implements IVue, ActionListener{
 	}
 
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+	public JTextField getChoixTemp() {
+		return choixTemp;
+	}
+
+
+	public void setChoixTemp(JTextField choixTemp) {
+		this.choixTemp = choixTemp;
 	}
 	
 }

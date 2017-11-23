@@ -78,7 +78,6 @@ public class Acq_Data implements Runnable{
                   Thread.sleep(1000);
                   //this.aCporte = Integer.parseInt(elements[2]);
                   System.out.println("Envois données vers le Modèle");
-                  Thread.sleep(3000);
                   this.m.setMesures(this.aHumidite,this.aTempInt,this.aTempExt); 
 
                   }

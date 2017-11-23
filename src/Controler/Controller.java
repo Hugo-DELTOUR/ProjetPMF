@@ -27,6 +27,7 @@ public class Controller implements Observer, ActionListener {
 	public Controller(Observable observable, Vue vue){
 			observable.addObserver(this);
 			this.vue = vue;
+			this.vue.getbGo().addActionListener(this);
 		}
 
 	public void update(Observable observable, Object arg) {
@@ -41,16 +42,16 @@ public class Controller implements Observer, ActionListener {
 //			EtatPorteActuelle = model.isPorte();
 //			this.derniereEtatPorte = EtatPorteActuelle;
 //			 Mettre les méthodes d'actualisation de la vue ici
-			this.vue.getbGo().addActionListener(vue);
-//			Afficher();
-//			MAJLabel();
+			Afficher();
+			MAJLabel();
 		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int i = Integer.parseInt(this.vue.getTempérature().getText());
-		System.out.println(i);
+		//System.out.println("Ma classe interne numéro 3 écoute bien !");
+		int i = Integer.parseInt(this.vue.getChoixTemp().getText());
+		System.out.println("Envoi valeur : " + i);
 	}
 	
 	private void Afficher() {
