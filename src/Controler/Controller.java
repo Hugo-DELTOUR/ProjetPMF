@@ -38,7 +38,7 @@ public class Controller implements Observer, ActionListener {
 			this.derniereHumidite = model.getHumidite();
 			this.tabTempInt.add(this.derniereTempInt);
 			majTableau(); //Décale toutes les valeurs du tableau de 1
-			//Afficher();
+			Afficher();
 			MAJLabel();
 		}
 	}
@@ -83,5 +83,18 @@ public class Controller implements Observer, ActionListener {
 	public void MAJPointRosée(){
 		
 	}
+//Pour les tests
+	public float getDerniereTempExt() {
+		return derniereTempExt;
+	}
 
+	public float getDerniereTempInt() {
+		return derniereTempInt;
+	}
+
+	public float getDerniereHumidite() {
+		return derniereHumidite;
+	}
+
+	
 }
