@@ -17,11 +17,20 @@ public class Model extends Observable {
 
 	
 	/* Principe du Design Pattern OBSERVABLE/OBSERVER */
+	/**
+	 * Alerter les observer + Envoyer
+	 */
 	public void actualiserMesures() {
 		setChanged(); //L'état à changé = Notification ! C'est lui le bijoux pour indiquer qu'on autorise
 		notifyObservers(); //Va MAJ si setChanged == true
 	}
 
+	/**
+	 * Méthode de l'observable, choix des différentes valeurs à envoyer aux observer
+	 * @param humidite
+	 * @param tempInter
+	 * @param tempExt
+	 */
 	public void setMesures(float humidite, float tempInter, float tempExt) {
 		this.humidite = humidite;
 		this.tempInter = tempInter;
