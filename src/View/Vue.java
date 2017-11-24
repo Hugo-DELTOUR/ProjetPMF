@@ -28,6 +28,10 @@ import org.jfree.ui.ApplicationFrame;
 public class Vue extends ApplicationFrame implements IVue{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float tempInt;
 	private float tempExt;
 	private float humidité;
@@ -44,10 +48,14 @@ public class Vue extends ApplicationFrame implements IVue{
 	private JLabel température = new JLabel("Choix de la température:");
 	private JTextField choixTemp = new JTextField("", 20);
 	private JButton bGo = new JButton("Go");
-	private Boolean pointRosée = true;
+	private Boolean pointRosée = false;
 	private Boolean porte = false;
 	private DefaultCategoryDataset dataset;
-
+/**
+ * Construction de la vue, c'est l'interface graphique pour l'utilisateur, 
+ * le tître correspond au tître du graphique compris dedans
+ * @param title
+ */
 	public Vue(String title){
 		
 		super(title);
@@ -103,7 +111,11 @@ public class Vue extends ApplicationFrame implements IVue{
 		fenetre.add(pan3, BorderLayout.SOUTH);
 		fenetre.add(pan4, BorderLayout.CENTER);
 	}
-	
+	/**
+	 * Création du JFreeChart (Bibliothèque à télecharger)
+	 * @param dataset
+	 * @return
+	 */
 	private static JFreeChart createChart(CategoryDataset dataset) {
 		
 		JFreeChart chart = ChartFactory.createLineChart("", "", "", dataset, PlotOrientation.VERTICAL, false, true, false);
@@ -121,10 +133,8 @@ public class Vue extends ApplicationFrame implements IVue{
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		
 		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
-		renderer.setShapesVisible(true);
 		renderer.setDrawOutlines(true);
 		renderer.setUseFillPaint(false);
-		renderer.setFillPaint(Color.white);
 		
 		return chart;
 	}

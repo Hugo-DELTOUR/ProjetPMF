@@ -23,6 +23,10 @@ public class CAD implements Runnable {
 	}
 
 	// Se connecter au port série
+	/**
+	 * Permet de définir le port de connexion, et de vérifier si le port est en cours d'utilisation
+	 * @throws Exception
+	 */
 	void connect() throws Exception {
 			portIdentifier = CommPortIdentifier.getPortIdentifier("COM5");
 			
@@ -33,6 +37,10 @@ public class CAD implements Runnable {
 			}
 	}
 	
+	/**
+	 * Cette méthode est appellée par connect(), elle permet d'initialiser la connexion, et de la lancer en mode "Lecture"
+	 * @throws Exception
+	 */
 	//Initialise la première connexion
 	private void InitialiserConnexion() throws Exception {
 		commPort = portIdentifier.open(this.getClass().getName(), 2000);
@@ -44,7 +52,11 @@ public class CAD implements Runnable {
 		}	
 	}
 
-	/** Décision si l'on souhaite écrire ou lire, écrire étant à True*/
+/**
+ * Cette méthode permet de savoir si on souhaite écrire ou lire sur notre carte
+ * @param choixAction
+ * @throws Exception
+ */
 	private void choixAction(Boolean choixAction) throws Exception {
 		if (commPort instanceof SerialPort) {
 			SerialPort serialPort = (SerialPort) commPort;
@@ -61,6 +73,11 @@ public class CAD implements Runnable {
 	}
 
 	// Ceci est notre thread ;)
+	/**
+	 * RecolterDonnees permet de lire les données. Elle récupère la trame envoyé sous arduino, pour l'insérer dans un tableau, et l'instancie dans le modèle
+	 * @param in
+	 * @throws Exception
+	 */
 	public void RecolterDonnees(InputStream in) throws Exception {
 		byte[] buffer = new byte[1024];
 		int len = -1;
@@ -93,7 +110,11 @@ public class CAD implements Runnable {
 		}
 	}
 
-	
+	/**
+	 * Ecrire données permet d'écrire sur la carte
+	 * @param out
+	 * @throws Exception
+	 */
 	public void EcrireDonnees(OutputStream out) throws Exception {
 		if (this.m.getTempConsigne() != 0) {
 			int vConsigne = (int) this.m.getTempConsigne();

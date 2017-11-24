@@ -50,7 +50,9 @@ public class Controller implements Observer, ActionListener {
 			MAJPorte();
 		}
 	}
-	
+	/**
+	 * Met à jour dans un tableau les dernières valeurs reçus
+	 */
 	private void majTableau() {
 		if (this.getTabTempInt().size() > 10) {
 			this.getTabTempInt().removeFirst();
@@ -65,13 +67,17 @@ public class Controller implements Observer, ActionListener {
 		System.out.println("Envoi valeur : " + tempConsigne);
 		this.m.setTempConsigne(tempConsigne);
 	}
-	
+	/**
+	 * Permet de suivre l'affichage sous console
+	 */
 	private void Afficher() {
 		System.out.println("Humidité :" + this.derniereHumidite);
 		System.out.println("Température Intérieure :" + this.derniereTempInt);
 		System.out.println("Température Extérieure :" + this.derniereTempExt);
 	}
-	
+	/**
+	 * Permet de mettre à jour l'affichage des label en fonction de la réception
+	 */
 	public void MAJLabel(){
 		String derHum = Float.toString(this.derniereHumidite);
 		String derTempExt = Float.toString(this.derniereTempExt);
@@ -83,11 +89,16 @@ public class Controller implements Observer, ActionListener {
 		this.vue.setTempExt(this.derniereTempExt);
 		this.vue.setTempInt(this.derniereTempInt);
 	}
-	
+	/**
+	 * Met à jour les données graphiques, en donnant en paramètre la dernière valeur reçue
+	 * @param i
+	 */
 	public void MAJGraph(int i){
 		this.vue.getDataset().addValue((float) tabTempInt.getLast(), "Température", ""+i);
 	}
-	
+	/**
+	 * Met à jour la valeur du point de rosée, si le point de rosée est supérieur à la température interne, l'alerte se déclanche sur la vue
+	 */
 	public void MAJPointRosée(){
 		simpliPointRosée=((17.27*this.derniereTempInt)/(237.7+this.derniereTempInt))+Math.log(this.derniereHumidite/100);
 		pointRosée=(237.7*simpliPointRosée)/(17.27+simpliPointRosée);
@@ -99,7 +110,10 @@ public class Controller implements Observer, ActionListener {
 			this.vue.setPointRosée(false);
 		}
 	}
-	
+	/**
+	 * Fait la différence entre la première et dernière valeur du tableau, si le delta est supérieur à quatre, l'équart est trop important
+	 * Une icone de porte est donc mise à jour
+	 */
 	public void MAJPorte(){
 		porte = this.tabTempInt.getLast() - this.tabTempInt.getFirst(); //Ecart
 		System.out.println(" Last Value : " + this.tabTempInt.getLast());
@@ -112,12 +126,15 @@ public class Controller implements Observer, ActionListener {
 			this.vue.setPorte(false);
 		}
 	}
-
+/**
+ * Retourne une liste chaînée de float
+ * @return
+ */
 	public LinkedList<Float> getTabTempInt() {
 		return tabTempInt;
 	}
 
-	public void setTabTempInt(LinkedList tabTempInt) {
+	public void setTabTempInt(LinkedList<Float> tabTempInt) {
 		this.tabTempInt = tabTempInt;
 	}
 
