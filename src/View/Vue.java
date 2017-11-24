@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.LinkedList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -25,10 +24,6 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
-
-import Controller.Controller;
-import demo.LineChartDemo1;
 
 public class Vue extends ApplicationFrame implements IVue{
 

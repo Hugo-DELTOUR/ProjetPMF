@@ -2,16 +2,12 @@ package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.jfree.ui.RefineryUtilities;
-
 import Model.Model;
 import View.Vue;
-import demo.LineChartDemo1;
 
 public class Controller implements Observer, ActionListener {
 	
