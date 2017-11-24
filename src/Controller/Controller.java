@@ -19,11 +19,11 @@ public class Controller implements Observer, ActionListener {
 	private float derniereTempInt;
 	private float derniereHumidite;
 	private int i = 0;
-	private double pointRos√©e;
-	private double simpliPointRos√©e;
+	private double pointRosÈe;
+	private double simpliPointRosÈe;
 	private float porte;
 	
-	private LinkedList<Float> tabTempInt; //Ce tableau va parcourir les 10 derni√®res valeurs pour porte + Graph
+	private LinkedList<Float> tabTempInt; //Ce tableau va parcourir les 10 derniËres valeurs pour porte + Graph
 	
 	public Controller(Observable observable,Vue vue, Model m){
 			observable.addObserver(this);
@@ -33,7 +33,7 @@ public class Controller implements Observer, ActionListener {
 			this.setTabTempInt(new LinkedList<Float>());
 		}
 
-	//Va mettre √† jour les valeurs √† chaque fois que le mod√®le subit une modification
+	//Va mettre ‡ jour les valeurs ‡ chaque fois que le modËle subit une modification
 	public void update(Observable observable, Object arg) {
 		if (observable instanceof Model) {
 			Model model = (Model) observable;
@@ -41,12 +41,12 @@ public class Controller implements Observer, ActionListener {
 			this.derniereTempInt = model.getTempInter();
 			this.derniereHumidite = model.getHumidite();
 			this.getTabTempInt().add(this.derniereTempInt);
-			majTableau(); //D√©cale toutes les valeurs du tableau de 1
+			majTableau(); //DÈcale toutes les valeurs du tableau de 1
 			Afficher();
 			MAJLabel();
 			MAJGraph(i);
 			i++;
-			MAJPointRos√©e();
+			MAJPointRosÈe();
 			MAJPorte();
 		}
 	}
@@ -54,22 +54,22 @@ public class Controller implements Observer, ActionListener {
 	private void majTableau() {
 		if (this.getTabTempInt().size() > 10) {
 			this.getTabTempInt().removeFirst();
-			//System.out.println("ElementRetir√©");
+			//System.out.println("ElementRetirÈ");
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//System.out.println("Ma classe interne num√©ro 3 √©coute bien !");
+		//System.out.println("Ma classe interne numÈro 3 Ècoute bien !");
 		int tempConsigne = Integer.parseInt(this.vue.getChoixTemp().getText());
 		System.out.println("Envoi valeur : " + tempConsigne);
 		this.m.setTempConsigne(tempConsigne);
 	}
 	
 	private void Afficher() {
-		System.out.println("Humidit√© :" + this.derniereHumidite);
-		System.out.println("Temp√©rature Int√©rieure :" + this.derniereTempInt);
-		System.out.println("Temp√©rature Ext√©rieure :" + this.derniereTempExt);
+		System.out.println("HumiditÈ :" + this.derniereHumidite);
+		System.out.println("TempÈrature IntÈrieure :" + this.derniereTempInt);
+		System.out.println("TempÈrature ExtÈrieure :" + this.derniereTempExt);
 	}
 	
 	public void MAJLabel(){
@@ -79,24 +79,24 @@ public class Controller implements Observer, ActionListener {
 		this.vue.getLabelDerHum().setText(derHum);
 		this.vue.getLabelDerTempExt().setText(derTempExt);
 		this.vue.getLabelDerTempInt().setText(derTempInt);
-		this.vue.setHumidit√©(this.derniereHumidite);
+		this.vue.setHumiditÈ(this.derniereHumidite);
 		this.vue.setTempExt(this.derniereTempExt);
 		this.vue.setTempInt(this.derniereTempInt);
 	}
 	
 	public void MAJGraph(int i){
-		this.vue.getDataset().addValue((float) tabTempInt.getLast(), "Temp√©rature", ""+i);
+		this.vue.getDataset().addValue((float) tabTempInt.getLast(), "TempÈrature", ""+i);
 	}
 	
-	public void MAJPointRos√©e(){
-		simpliPointRos√©e=((17.27*this.derniereTempInt)/(237.7+this.derniereTempInt))+Math.log(this.derniereHumidite/100);
-		pointRos√©e=(237.7*simpliPointRos√©e)/(17.27+simpliPointRos√©e);
-		System.out.println("Point de Ros√©e: "+pointRos√©e);
-		if(derniereTempInt<pointRos√©e){
-			this.vue.setPointRos√©e(true);
+	public void MAJPointRosÈe(){
+		simpliPointRosÈe=((17.27*this.derniereTempInt)/(237.7+this.derniereTempInt))+Math.log(this.derniereHumidite/100);
+		pointRosÈe=(237.7*simpliPointRosÈe)/(17.27+simpliPointRosÈe);
+		System.out.println("Point de RosÈe: "+pointRosÈe);
+		if(derniereTempInt<pointRosÈe){
+			this.vue.setPointRosÈe(true);
 		}
 		else{
-			this.vue.setPointRos√©e(false);
+			this.vue.setPointRosÈe(false);
 		}
 	}
 	
