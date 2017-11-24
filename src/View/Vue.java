@@ -1,13 +1,11 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Observable;
+import java.util.LinkedList;
 
-import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,9 +14,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Vue extends JFrame implements IVue{
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RefineryUtilities;
 
+import Controller.Controller;
+import demo.LineChartDemo1;
 
+public class Vue extends ApplicationFrame implements IVue{
+
+	
 	private float tempInt;
 	private float tempExt;
 	private float humidité;
@@ -36,14 +50,22 @@ public class Vue extends JFrame implements IVue{
 	private JTextField choixTemp = new JTextField("", 20);
 	private JButton bGo = new JButton("Go");
 	private Boolean pointRosée = true;
-	private Boolean porte = true ;
-	
-	public Vue(){
+	private Boolean porte = false;
+	private DefaultCategoryDataset dataset;
+
+	public Vue(String title){
 		
+		super(title);
+		dataset = new DefaultCategoryDataset();
+		JFreeChart chart = createChart(dataset);
+		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new Dimension(500, 270));
+				
 		JFrame fenetre = new JFrame();
 		JPanel pan = new JPanel();
 		JPanel pan2 = new JPanel();
 		JPanel pan3 = new JPanel();
+		JPanel pan4 = new JPanel();
 		
 		fenetre.setTitle("Projet PMF");
 		fenetre.setSize(700, 500);
@@ -79,13 +101,39 @@ public class Vue extends JFrame implements IVue{
 			pan3.add(condensation);
 		}
 		
+		pan4.add(chartPanel);
+		
 		fenetre.add(pan,BorderLayout.PAGE_START);
 		fenetre.add(pan2,BorderLayout.EAST);
-		fenetre.add(pan3, BorderLayout.CENTER);
+		fenetre.add(pan3, BorderLayout.SOUTH);
+		fenetre.add(pan4, BorderLayout.CENTER);
+	}
+	
+	private static JFreeChart createChart(CategoryDataset dataset) {
 		
+		JFreeChart chart = ChartFactory.createLineChart("", "", "", dataset, PlotOrientation.VERTICAL, false, true, false);
+		chart.addSubtitle(new TextTitle("Température"));
+		TextTitle source = new TextTitle("");
+		chart.addSubtitle(source);
+		
+		chart.setBackgroundPaint(Color.LIGHT_GRAY);
+		
+		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		plot.setBackgroundPaint(Color.white);
+		plot.setRangeGridlinePaint(Color.black);
+		
+		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		
+		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
+		renderer.setShapesVisible(true);
+		renderer.setDrawOutlines(true);
+		renderer.setUseFillPaint(false);
+		renderer.setFillPaint(Color.white);
+		
+		return chart;
 	}
 		
-	
 	public JButton getbGo() {
 		return bGo;
 	}
@@ -98,31 +146,25 @@ public class Vue extends JFrame implements IVue{
 		return labelDerTempExt;
 	}
 
-
 	public void setLabelDerTempExt(JLabel labelDerTempExt) {
 		this.labelDerTempExt = labelDerTempExt;
 	}
-
 
 	public JLabel getLabelDerTempInt() {
 		return labelDerTempInt;
 	}
 
-
 	public void setLabelDerTempInt(JLabel labelDerTempInt) {
 		this.labelDerTempInt = labelDerTempInt;
 	}
-
 
 	public JLabel getLabelDerHum() {
 		return labelDerHum;
 	}
 
-
 	public void setLabelDerHum(JLabel labelDerHum) {
 		this.labelDerHum = labelDerHum;
 	}
-
 
 	public float getTempInt() {
 		return tempInt;
@@ -164,22 +206,19 @@ public class Vue extends JFrame implements IVue{
 		this.porte = porte;
 	}
 
-	public JLabel getTempérature() {
-		return température;
-	}
-
-	public void setTempérature(JLabel température) {
-		this.température = température;
-	}
-
-
 	public JTextField getChoixTemp() {
 		return choixTemp;
 	}
-
 
 	public void setChoixTemp(JTextField choixTemp) {
 		this.choixTemp = choixTemp;
 	}
 	
+	public DefaultCategoryDataset getDataset() {
+		return dataset;
+	}
+
+	public void setDataset(DefaultCategoryDataset dataset) {
+		this.dataset = dataset;
+	}
 }
