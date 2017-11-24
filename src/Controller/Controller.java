@@ -1,7 +1,7 @@
-package Controler;
+package Controller;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,15 +18,19 @@ public class Controller implements Observer, ActionListener {
 	private float derniereTempExt;
 	private float derniereTempInt;
 	private float derniereHumidite;
+	private int i = 0;
+	private double pointRosée;
+	private double simpliPointRosée;
+	private float porte;
 	
-	private LinkedList tabTempInt; //Ce tableau va parcourir les 10 dernières valeurs pour porte + Graph
+	private LinkedList<Float> tabTempInt; //Ce tableau va parcourir les 10 dernières valeurs pour porte + Graph
 	
 	public Controller(Observable observable,Vue vue, Model m){
 			observable.addObserver(this);
 			this.vue = vue;
 			this.m = m;
 			this.vue.getbGo().addActionListener(this);
-			this.tabTempInt = new LinkedList();
+			this.setTabTempInt(new LinkedList<Float>());
 		}
 
 	//Va mettre à jour les valeurs à chaque fois que le modèle subit une modification
@@ -36,19 +40,23 @@ public class Controller implements Observer, ActionListener {
 			this.derniereTempExt = model.getTempExt();
 			this.derniereTempInt = model.getTempInter();
 			this.derniereHumidite = model.getHumidite();
-			this.tabTempInt.add(this.derniereTempInt);
+			this.getTabTempInt().add(this.derniereTempInt);
 			majTableau(); //Décale toutes les valeurs du tableau de 1
 			Afficher();
 			MAJLabel();
+			MAJGraph(i);
+			i++;
+			MAJPointRosée();
+			MAJPorte();
 		}
 	}
 	
 	private void majTableau() {
-		if (this.tabTempInt.size() > 10) {
-			this.tabTempInt.removeFirst();
-			System.out.println("ElementRetiré");
+		if (this.getTabTempInt().size() > 10) {
+			this.getTabTempInt().removeFirst();
+			//System.out.println("ElementRetiré");
 		}
-		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -76,25 +84,67 @@ public class Controller implements Observer, ActionListener {
 		this.vue.setTempInt(this.derniereTempInt);
 	}
 	
-	public void MAJGraph(){
-		
+	public void MAJGraph(int i){
+		this.vue.getDataset().addValue((float) tabTempInt.getLast(), "Température", ""+i);
 	}
 	
 	public void MAJPointRosée(){
-		
+		simpliPointRosée=((17.27*this.derniereTempInt)/(237.7+this.derniereTempInt))+Math.log(this.derniereHumidite/100);
+		pointRosée=(237.7*simpliPointRosée)/(17.27+simpliPointRosée);
+		System.out.println("Point de Rosée: "+pointRosée);
+		if(derniereTempInt<pointRosée){
+			this.vue.setPointRosée(true);
+		}
+		else{
+			this.vue.setPointRosée(false);
+		}
 	}
-//Pour les tests
+	
+	public void MAJPorte(){
+		porte = this.tabTempInt.getLast() - this.tabTempInt.getFirst(); //Ecart
+		System.out.println(" Last Value : " + this.tabTempInt.getLast());
+		System.out.println(" First Value : " + this.tabTempInt.getFirst());
+		System.out.println("Delta = " + porte);
+		if(porte>4){
+			this.vue.setPorte(true);
+		}
+		else{
+			this.vue.setPorte(false);
+		}
+	}
+
+	public LinkedList<Float> getTabTempInt() {
+		return tabTempInt;
+	}
+
+	public void setTabTempInt(LinkedList tabTempInt) {
+		this.tabTempInt = tabTempInt;
+	}
+
 	public float getDerniereTempExt() {
 		return derniereTempExt;
+	}
+
+	public void setDerniereTempExt(float derniereTempExt) {
+		this.derniereTempExt = derniereTempExt;
 	}
 
 	public float getDerniereTempInt() {
 		return derniereTempInt;
 	}
 
+	public void setDerniereTempInt(float derniereTempInt) {
+		this.derniereTempInt = derniereTempInt;
+	}
+
 	public float getDerniereHumidite() {
 		return derniereHumidite;
 	}
 
+	public void setDerniereHumidite(float derniereHumidite) {
+		this.derniereHumidite = derniereHumidite;
+	}
 	
+	
+
 }

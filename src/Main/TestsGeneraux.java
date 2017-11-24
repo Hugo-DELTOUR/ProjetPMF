@@ -1,19 +1,17 @@
-package Main;
+package MAIN;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Before;
+import org.junit.Test;
 import CAD.CAD;
-import Controler.Controller;
+import Controller.Controller;
 import Model.Model;
 import View.Vue;
 
 class TestsGeneraux {
 
-	@BeforeEach
+	@Before
 	void setUp() throws Exception {
 		
 	}
@@ -21,7 +19,7 @@ class TestsGeneraux {
 	@Test
 	void TestValeurRecuControleur() throws Exception {
 		Model model = new Model();
-		Vue vue = new Vue();
+		Vue vue = new Vue(null);
 		Controller control = new Controller(model,vue,model);
 		CAD CAD = new CAD(model);
 		assertEquals(model.getHumidite(),control.getDerniereHumidite()); //Humidite
